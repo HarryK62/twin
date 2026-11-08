@@ -29,6 +29,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Debug OIDC claims
+        env:
+          ROLE: ${{ secrets.AWS_ROLE_ARN }}
+        run: |
+          EXPECTED="arn:aws:iam::368351959602:role/github-actions-twin-deploy"
+          if [ "$ROLE" = "$EXPECTED" ]; then echo "Secret matches: YES"; else echo "Secret matches: NO (length ${#ROLE}, expected 57)"; fi
+          TOKEN=$(curl -sS -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=sts.amazonaws.com" | jq -r .value)
+          P=$(echo "$TOKEN" | cut -d. -f2 | tr '_-' '/+')
+          while [ $(( ${#P} % 4 )) -ne 0 ]; do P="$P="; done
+          echo "$P" | base64 -d | jq '{sub, aud, repository}'
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -39,7 +50,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: '3.13'
 
       - name: Install uv
         run: |
