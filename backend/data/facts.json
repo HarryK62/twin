@@ -1,0 +1,22 @@
+{
+    "full_name": "Henry Kijanka",
+    "name": "Harry",
+    "current_role": "Director",
+    "location": "Tea Tree Gully, Australia",
+    "email": "henry@hjkenergy.si",
+    "linkedin": "www.linkedin.com/in/harry-kijanka-07099b311",
+    "specialties": [
+      "Automation and Control Systems",
+      "Energy Efficiency",
+      "AI Engineering",
+      "Environmental Management"
+    ],
+    "years_experience": 50,
+    "education": [
+      {
+        "degree": "Bachelor of Engineering (Electrical), Honours",
+        "institution": "University of South Australia",
+        "year": "1992"
+      }
+    ]
+  }
